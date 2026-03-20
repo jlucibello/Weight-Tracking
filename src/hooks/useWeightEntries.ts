@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 import type { WeightEntry, NewWeightEntry } from '../types/weight'
 
-const CHUNK_SIZE = 500
-
 export function useWeightEntries() {
   const [entries, setEntries] = useState<WeightEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -37,19 +35,5 @@ export function useWeightEntries() {
     return null
   }, [fetchEntries])
 
-  const importEntries = useCallback(async (entries: NewWeightEntry[]): Promise<{ imported: number; error: string | null }> => {
-    let imported = 0
-    for (let i = 0; i < entries.length; i += CHUNK_SIZE) {
-      const chunk = entries.slice(i, i + CHUNK_SIZE)
-      const { error } = await supabase
-        .from('weight_entries')
-        .upsert(chunk, { onConflict: 'entry_date' })
-      if (error) return { imported, error: error.message }
-      imported += chunk.length
-    }
-    await fetchEntries()
-    return { imported, error: null }
-  }, [fetchEntries])
-
-  return { entries, loading, error, addEntry, importEntries }
+  return { entries, loading, error, addEntry }
 }

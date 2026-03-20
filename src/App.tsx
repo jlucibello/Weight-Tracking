@@ -4,13 +4,12 @@ import { LogEntryForm } from './components/LogEntryForm'
 import { KPICards } from './components/KPICards'
 import { ChartFilters } from './components/ChartFilters'
 import { WeightChart } from './components/WeightChart'
-import { ImportCSV } from './components/ImportCSV'
 import { useWeightEntries } from './hooks/useWeightEntries'
 import { useKPIs } from './hooks/useKPIs'
 import type { DateRange } from './utils/dateHelpers'
 
 export default function App() {
-  const { entries, loading, error, addEntry, importEntries } = useWeightEntries()
+  const { entries, loading, error, addEntry } = useWeightEntries()
   const kpis = useKPIs(entries)
   const [range, setRange] = useState<DateRange>('month')
 
@@ -38,7 +37,6 @@ export default function App() {
         <ChartFilters range={range} onRangeChange={setRange} />
         <WeightChart entries={entries} range={range} />
       </div>
-      <ImportCSV onImport={importEntries} />
     </Layout>
   )
 }

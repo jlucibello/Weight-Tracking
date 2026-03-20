@@ -36,7 +36,7 @@ export function LogEntryForm({ onAdd }: Props) {
       setSuccess(true)
       setWeight('')
       setDate(todayISO())
-      setTimeout(() => setSuccess(false), 3000)
+      setTimeout(() => setSuccess(false), 2000)
     }
   }
 
@@ -77,7 +77,19 @@ export function LogEntryForm({ onAdd }: Props) {
         </div>
       </form>
       {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
-      {success && <p className="mt-3 text-sm text-green-600">Entry saved!</p>}
+
+      {success && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="flex flex-col items-center gap-4 bg-white rounded-2xl px-16 py-12 shadow-2xl">
+            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-green-100">
+              <svg className="w-10 h-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p className="text-2xl font-semibold text-gray-900">Weight submitted</p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
