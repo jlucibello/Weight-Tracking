@@ -35,5 +35,12 @@ export function useWeightEntries() {
     return null
   }, [fetchEntries])
 
-  return { entries, loading, error, addEntry }
+  const deleteEntry = useCallback(async (id: string): Promise<string | null> => {
+    const { error } = await supabase.from('weight_entries').delete().eq('id', id)
+    if (error) return error.message
+    await fetchEntries()
+    return null
+  }, [fetchEntries])
+
+  return { entries, loading, error, addEntry, deleteEntry }
 }
